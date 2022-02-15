@@ -1,6 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+def actor_upload_to(instance, filename):
+    return 'actors/{filename}'.format(filename=filename)
+
+def movie_upload_to(instance, filename):
+    return 'movies/{filename}'.format(filename=filename)
+
 class Language(models.Model):
     name = models.CharField(max_length=200)
 
@@ -30,7 +36,8 @@ class Actor(models.Model):
     first_name = models.CharField(max_length=100, blank=False)
     last_name = models.CharField(max_length=200, blank=True)
     birthday = models.DateField()
-    death = models.DateField()
+    death = models.DateField(null=True,blank=True)
+    img = models.ImageField(upload_to=actor_upload_to,default='default.jpg')
 
     def __str__(self):
         if self.last_name:
@@ -46,6 +53,7 @@ class Movie(models.Model):
     release_date = models.DateField(null=True)
     avg_score = models.FloatField(default=0)
     count_score = models.FloatField(default=0)
+    img = models.ImageField(upload_to=movie_upload_to,default='default.jpg')
 
     language = models.ForeignKey(Language, related_name='movie_language', on_delete=models.SET_NULL, null=True)
     company = models.ForeignKey(Company, related_name='movie_company', on_delete=models.SET_NULL, null=True)
