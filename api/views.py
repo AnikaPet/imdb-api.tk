@@ -13,45 +13,47 @@ class UserWritePermission(BasePermission):
     '''User can only edit their profile. Only superuser can edit other profiles.'''
   
     def has_object_permission(self, request, view, obj):
-        if request.method in SAFE_METHODS and request.user.is_authenticated:
-            return True
+        if request.user.is_authenticated:
+            if request.method in SAFE_METHODS:
+                return True
+            else:
+                return bool(request.user.is_superuser or request.user == obj.user)
         else:
-            return bool(request.user.is_superuser or request.user == obj.user)
+            return False
 
     def has_permission(self, request, view):
-        if request.method in SAFE_METHODS and request.user.is_authenticated:
-            return True
-        else:
-            return bool(request.user and request.user.is_superuser)
+        return request.user.is_authenticated
 
 class ProfileWritePermission(BasePermission):
     '''User can edit review from their profile only.'''
 
     def has_object_permission(self, request, view, obj):
-        if request.method in SAFE_METHODS and request.user.is_authenticated:
-            return True
-        else:
-            profile_id = request.user.id
-            profile = Profile.objects.filter(user_id=profile_id)
-            if profile:
-                return bool((request.user and request.user.is_superuser) or profile == obj.profile)
+        if request.user.is_authenticated:
+            if request.method in SAFE_METHODS:
+                return True
             else:
-                return bool(request.user and request.user.is_superuser)
-    
-    def has_permission(self, request, view):
-        if request.method in SAFE_METHODS:
-            return True
+                user_id = request.user.id
+                profile = Profile.objects.get(user_id=user_id)
+                profile_id = profile.id
+                
+                return bool(profile_id == obj.profile_id or request.user.is_superuser)
         else:
-            return bool(request.user and request.user.is_superuser)
+            return False
+
+    def has_permission(self, request, view):
+        return request.user.is_authenticated
 
 class IsSuperUser(BasePermission):
     ''' Allows access only to superusers.'''
     
     def has_permission(self, request, view):
-        if request.method in SAFE_METHODS and request.user.is_authenticated:
-            return True
+        if request.user.is_authenticated:
+            if request.method in SAFE_METHODS:
+                return True
+            else:
+                return request.user.is_superuser
         else:
-            return bool(request.user and request.user.is_superuser)
+            return False
 
 class RegisterUserViewSet(mixins.CreateModelMixin,viewsets.GenericViewSet):
     permission_classes = [AllowAny]
@@ -106,7 +108,7 @@ class LanguageViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.Des
     serializer_class = LanguageSerializer
 
 class ReviewViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,
-                mixins.ListModelMixin,mixins.RetrieveModelMixin,IsSuperUser,viewsets.GenericViewSet): 
+                mixins.ListModelMixin,mixins.RetrieveModelMixin,ProfileWritePermission,viewsets.GenericViewSet): 
     permission_classes = [ProfileWritePermission]
     queryset = Review.objects.all().order_by('id')
     serializer_class = ReviewSerializer
@@ -117,11 +119,12 @@ class ReviewViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.Destr
         if(self.request.user.is_superuser):
             serializer.save()
         else:
-            profile = None
-            if self.request and hasattr(self.request, 'user'):
-                profile_id = self.request.user.id
-                profile = Profile.objects.get(pk=profile_id)
-            serializer.save(profile=profile)
+            profile_id = None
+            if self.request:
+                user_id = self.request.user.id
+                profile = Profile.objects.get(user_id=user_id)
+                profile_id = profile.id
+            serializer.save(profile_id=profile_id)
 
 class ActorViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,
                 mixins.ListModelMixin,mixins.RetrieveModelMixin,IsSuperUser,viewsets.GenericViewSet): 
