@@ -153,3 +153,8 @@ cython_debug/
 
 # db setup
 db_setup.sql
+
+static
+app.service
+nginx.conf
+service_management.txt
