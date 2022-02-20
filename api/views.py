@@ -1,25 +1,25 @@
-from re import L
+from django.contrib.auth.models import User
 from django.db.models.fields import mixins
 
 from rest_framework import mixins
 from rest_framework import viewsets
-from rest_framework.permissions import BasePermission, SAFE_METHODS
+from rest_framework.permissions import BasePermission, SAFE_METHODS, AllowAny
 
 from .models import Profile,Movie,Cast,Company,Country,Language,Genre,Actor,Review
-from .serializers import ActorSerializer, CountrySerializer,CompanySerializer, GenreSerializer
+from .serializers import ActorSerializer, CountrySerializer,CompanySerializer, GenreSerializer, RegisterSerializer
 from .serializers import LanguageSerializer,ProfileSerializer,MovieSerializer,ReviewSerializer, CastSerializer
 
 class UserWritePermission(BasePermission):
     '''User can only edit their profile. Only superuser can edit other profiles.'''
   
     def has_object_permission(self, request, view, obj):
-        if request.method in SAFE_METHODS:
+        if request.method in SAFE_METHODS and request.user.is_authenticated:
             return True
         else:
             return bool(request.user.is_superuser or request.user == obj.user)
 
     def has_permission(self, request, view):
-        if request.method in SAFE_METHODS:
+        if request.method in SAFE_METHODS and request.user.is_authenticated:
             return True
         else:
             return bool(request.user and request.user.is_superuser)
@@ -28,7 +28,7 @@ class ProfileWritePermission(BasePermission):
     '''User can edit review from their profile only.'''
 
     def has_object_permission(self, request, view, obj):
-        if request.method in SAFE_METHODS:
+        if request.method in SAFE_METHODS and request.user.is_authenticated:
             return True
         else:
             profile_id = request.user.id
@@ -48,10 +48,15 @@ class IsSuperUser(BasePermission):
     ''' Allows access only to superusers.'''
     
     def has_permission(self, request, view):
-        if request.method in SAFE_METHODS:
+        if request.method in SAFE_METHODS and request.user.is_authenticated:
             return True
         else:
             return bool(request.user and request.user.is_superuser)
+
+class RegisterUserViewSet(mixins.CreateModelMixin,viewsets.GenericViewSet):
+    permission_classes = [AllowAny]
+    queryset = User.objects.all().order_by('id')
+    serializer_class = RegisterSerializer
 
 class ProfileViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,
                 mixins.ListModelMixin,mixins.RetrieveModelMixin,UserWritePermission,viewsets.GenericViewSet): 
