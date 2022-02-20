@@ -4,7 +4,7 @@ from .models import Profile,Movie,Cast,Company,Country,Language,Genre,Actor,Revi
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        exclude = []
+        exclude = ['user']
 
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,4 +44,4 @@ class ActorSerializer(serializers.ModelSerializer):
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        exclude = []
+        exclude = ['profile']

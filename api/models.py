@@ -32,7 +32,7 @@ class Genre(models.Model):
 class Actor(models.Model):
     first_name = models.CharField(max_length=100, blank=False)
     last_name = models.CharField(max_length=200, blank=True)
-    birthday = models.DateField()
+    birthday = models.DateField(null=True,blank=True)
     death = models.DateField(null=True,blank=True)
     img = models.ImageField(upload_to=upload_to,default='default.jpg')
 
@@ -44,8 +44,8 @@ class Actor(models.Model):
 class Movie(models.Model):
     title = models.CharField(max_length=200, blank=True)
     description = models.TextField(max_length=10000, blank=True) 
-    budget = models.DecimalField(max_digits=10,decimal_places=2)
-    revenue = models.DecimalField(max_digits=10,decimal_places=2)
+    budget = models.DecimalField(max_digits=10,decimal_places=2, blank=True)
+    revenue = models.DecimalField(max_digits=10,decimal_places=2, blank=True)
     runtime = models.DurationField()
     release_date = models.DateField(null=True)
     avg_score = models.FloatField(default=0)
@@ -59,7 +59,10 @@ class Movie(models.Model):
     actors = models.ManyToManyField(Actor,through="Cast")
 
     def __str__(self):
-        return self.title+" ( "+self.release_date.year+" )"
+        if(self.release_date):
+            return self.title+" ( "+self.release_date.year+" )"
+        else:
+            return self.title
 
 class Cast(models.Model):
     #default null = False
@@ -75,11 +78,11 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
 
-    reviewed_movies = models.ManyToManyField(Movie,through="Review",related_name="reviews")
-    saved_movies = models.ManyToManyField(Movie,related_name="watchlist")
+    reviewed_movies = models.ManyToManyField(Movie,through="Review",related_name="reviews", blank=True)
+    saved_movies = models.ManyToManyField(Movie,related_name="watchlist", blank=True)
 
     def __str__(self):
-        return self.name
+        return self.user.username
 
 RATINGS = (
     (1,'1'),
