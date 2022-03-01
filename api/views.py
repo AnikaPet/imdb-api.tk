@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User
 from django.db.models.fields import mixins
 
+from django_filters.rest_framework import DjangoFilterBackend
+
+from rest_framework import filters
 from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.permissions import BasePermission, SAFE_METHODS, AllowAny
@@ -82,6 +85,9 @@ class MovieViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.Destro
     permission_classes = [IsSuperUser]
     queryset = Movie.objects.all().order_by('id')
     serializer_class = MovieSerializer
+    
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = {'title': ['startswith'], 'genre__title': ['startswith']}
 
 class CastViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,
                 mixins.ListModelMixin,mixins.RetrieveModelMixin,IsSuperUser,viewsets.GenericViewSet): 
@@ -137,3 +143,5 @@ class GenreViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.Destro
     permission_classes = [IsSuperUser]
     queryset = Genre.objects.all().order_by('id')
     serializer_class = GenreSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title']

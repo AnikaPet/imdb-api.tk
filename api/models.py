@@ -27,7 +27,7 @@ class Genre(models.Model):
     title = models.CharField(max_length=200)
     
     def __str__(self):
-        return self.ttile
+        return self.title
 
 class Actor(models.Model):
     first_name = models.CharField(max_length=100, blank=False)
