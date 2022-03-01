@@ -44,8 +44,8 @@ class Actor(models.Model):
 class Movie(models.Model):
     title = models.CharField(max_length=200, blank=True)
     description = models.TextField(max_length=10000, blank=True) 
-    budget = models.DecimalField(max_digits=10,decimal_places=2, blank=True)
-    revenue = models.DecimalField(max_digits=10,decimal_places=2, blank=True)
+    budget = models.DecimalField(max_digits=20,decimal_places=2, blank=True)
+    revenue = models.DecimalField(max_digits=20,decimal_places=2, blank=True)
     runtime = models.DurationField()
     release_date = models.DateField(null=True)
     avg_score = models.FloatField(default=0)
