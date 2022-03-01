@@ -128,6 +128,10 @@ class ReviewViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.Destr
     queryset = Review.objects.all().order_by('id')
     serializer_class = ReviewSerializer
 
+    # Filter reviews by profile_id or movie_id
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = {'profile_id','movie_id'}
+
     def perform_create(self, serializer):
         '''Mapping profile field to profile of logged in user unless it's superuser editing existing review.'''
 
