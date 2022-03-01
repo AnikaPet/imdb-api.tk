@@ -29,16 +29,16 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'])   
         return user
 
-
-class ProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        exclude = ['user']
-
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         exclude = []
+
+class ProfileSerializer(serializers.ModelSerializer):
+    saved_movies = MovieSerializer(read_only=True,many=True)
+    class Meta:
+        model = Profile
+        exclude = ['user']
 
 class CastSerializer(serializers.ModelSerializer):
     class Meta:

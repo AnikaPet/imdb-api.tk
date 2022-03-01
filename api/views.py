@@ -7,6 +7,7 @@ from rest_framework import filters
 from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.permissions import BasePermission, SAFE_METHODS, AllowAny
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import Profile,Movie,Cast,Company,Country,Language,Genre,Actor,Review
 from .serializers import ActorSerializer, CountrySerializer,CompanySerializer, GenreSerializer, RegisterSerializer
@@ -59,12 +60,14 @@ class IsSuperUser(BasePermission):
             return False
 
 class RegisterUserViewSet(mixins.CreateModelMixin,viewsets.GenericViewSet):
+    authentication_classes = [JWTAuthentication]
     permission_classes = [AllowAny]
     queryset = User.objects.all().order_by('id')
     serializer_class = RegisterSerializer
 
 class ProfileViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,
                 mixins.ListModelMixin,mixins.RetrieveModelMixin,UserWritePermission,viewsets.GenericViewSet): 
+    authentication_classes = [JWTAuthentication]
     permission_classes = [UserWritePermission]
     queryset = Profile.objects.all().order_by('id')
     serializer_class = ProfileSerializer
@@ -82,6 +85,7 @@ class ProfileViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.Dest
 
 class MovieViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,
                 mixins.ListModelMixin,mixins.RetrieveModelMixin,IsSuperUser,viewsets.GenericViewSet): 
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsSuperUser]
     queryset = Movie.objects.all().order_by('id')
     serializer_class = MovieSerializer
@@ -91,30 +95,35 @@ class MovieViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.Destro
 
 class CastViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,
                 mixins.ListModelMixin,mixins.RetrieveModelMixin,IsSuperUser,viewsets.GenericViewSet): 
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsSuperUser]
     queryset = Cast.objects.all().order_by('id')
     serializer_class = CastSerializer
 
 class CompanyViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,
                 mixins.ListModelMixin,mixins.RetrieveModelMixin,IsSuperUser,viewsets.GenericViewSet): 
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsSuperUser]
     queryset = Company.objects.all().order_by('id')
     serializer_class = CompanySerializer
 
 class CountryViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,
                 mixins.ListModelMixin,mixins.RetrieveModelMixin,IsSuperUser,viewsets.GenericViewSet): 
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsSuperUser]
     queryset = Country.objects.all().order_by('id')
     serializer_class = CountrySerializer
 
 class LanguageViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,
                 mixins.ListModelMixin,mixins.RetrieveModelMixin,IsSuperUser,viewsets.GenericViewSet): 
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsSuperUser]
     queryset = Language.objects.all().order_by('id')
     serializer_class = LanguageSerializer
 
 class ReviewViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,
                 mixins.ListModelMixin,mixins.RetrieveModelMixin,ProfileWritePermission,viewsets.GenericViewSet): 
+    authentication_classes = [JWTAuthentication]
     permission_classes = [ProfileWritePermission]
     queryset = Review.objects.all().order_by('id')
     serializer_class = ReviewSerializer
@@ -134,12 +143,14 @@ class ReviewViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.Destr
 
 class ActorViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,
                 mixins.ListModelMixin,mixins.RetrieveModelMixin,IsSuperUser,viewsets.GenericViewSet): 
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsSuperUser]
     queryset = Actor.objects.all().order_by('id')
     serializer_class = ActorSerializer
 
 class GenreViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,
                 mixins.ListModelMixin,mixins.RetrieveModelMixin,IsSuperUser,viewsets.GenericViewSet): 
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsSuperUser]
     queryset = Genre.objects.all().order_by('id')
     serializer_class = GenreSerializer
