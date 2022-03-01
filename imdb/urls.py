@@ -34,6 +34,8 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
+    path('api/image/<int:movie_id>',views.image_view),
+
     path('docs/',include_docs_urls(title='IMDB-api')),
     path('schema', get_schema_view(
         title="IMDB API",

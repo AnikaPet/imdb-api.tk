@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db.models.fields import mixins
+from django.http import HttpResponse
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -160,3 +161,7 @@ class GenreViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.Destro
     serializer_class = GenreSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['title']
+
+def image_view(request,  movie_id):
+    image = Movie.objects.get(pk=movie_id).img
+    return HttpResponse(image, content_type="image/png")
