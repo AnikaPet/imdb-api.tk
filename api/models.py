@@ -52,17 +52,14 @@ class Movie(models.Model):
     count_score = models.FloatField(default=0)
     img = models.ImageField(upload_to=upload_to,default='default.jpg')
 
-    language = models.ForeignKey(Language, related_name='movie_language', on_delete=models.SET_NULL, null=True)
-    company = models.ForeignKey(Company, related_name='movie_company', on_delete=models.SET_NULL, null=True)
-    genre = models.ForeignKey(Genre, related_name='movie_genre', on_delete=models.SET_NULL, null=True)
+    language = models.ForeignKey(Language, related_name='movie_language', on_delete=models.SET_NULL, null=True, blank=True)
+    company = models.ForeignKey(Company, related_name='movie_company', on_delete=models.SET_NULL, null=True, blank=True)
+    genre = models.ForeignKey(Genre, related_name='movie_genre', on_delete=models.SET_NULL, null=True, blank=True)
 
     actors = models.ManyToManyField(Actor,through="Cast")
 
     def __str__(self):
-        if(self.release_date):
-            return self.title+" ( "+self.release_date.year+" )"
-        else:
-            return self.title
+        return self.title
 
 class Cast(models.Model):
     #default null = False
