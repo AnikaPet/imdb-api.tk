@@ -102,6 +102,9 @@ class CastViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.Destroy
     queryset = Cast.objects.all().order_by('id')
     serializer_class = CastSerializer
 
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = {'movie_id'}
+
 class CompanyViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,
                 mixins.ListModelMixin,mixins.RetrieveModelMixin,IsSuperUser,viewsets.GenericViewSet): 
     authentication_classes = [JWTAuthentication]
