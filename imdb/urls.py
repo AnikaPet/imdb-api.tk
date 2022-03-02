@@ -26,11 +26,15 @@ router.register(r'actors', views.ActorViewSet)
 router.register(r'register',views.RegisterUserViewSet)
 
 urlpatterns = [
-    #path('',),
+    path('',views.about_us,name='home-page'),
     path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
     #enable login
     #path('api-auth/',include('rest_framework.urls',namespace = 'rest_framework')),
+
+    path('accounts/', include('accounts.urls')), 
+    path('accounts/', include('django.contrib.auth.urls')),
+
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 

@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db.models.fields import mixins
 from django.http import HttpResponse
+from django.shortcuts import render
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -165,3 +166,8 @@ class GenreViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.Destro
 def image_view(request,  movie_id):
     image = Movie.objects.get(pk=movie_id).img
     return HttpResponse(image, content_type="image/png")
+
+def about_us(request):
+    '''A view of about us page.'''
+
+    return render(request,'about_us.html')

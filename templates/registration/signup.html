@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'nav.html' %}
+
+<div class="container" style="padding: 5ch;"></div>
+
+<div class="card"  style="padding: 5ch;">
+  <div class="card text-center">
+    <div class="card-header">
+      Sign up
+    </div>
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Sign up</button>
+      </form>
+    </div>
+
+  </div>
+</div>
+</div>
+
+{% endblock %}
