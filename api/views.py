@@ -163,8 +163,12 @@ class GenreViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.Destro
     filter_backends = [filters.SearchFilter]
     search_fields = ['title']
 
-def image_view(request,  movie_id):
+def movie_image_view(request,  movie_id):
     image = Movie.objects.get(pk=movie_id).img
+    return HttpResponse(image, content_type="image/png")
+
+def actor_image_view(request,  actor_id):
+    image = Actor.objects.get(pk=actor_id).img
     return HttpResponse(image, content_type="image/png")
 
 def about_us(request):
