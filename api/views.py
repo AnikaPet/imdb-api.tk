@@ -37,16 +37,16 @@ class ProfileWritePermission(BasePermission):
     # obj is Review
 
     def has_object_permission(self, request, view, obj):
-        if request.user.is_authenticated:
-            if request.method in SAFE_METHODS:
-                return True
-            else:
-                profile = None
-                user = request.user
-                profile = Profile.objects.get(user_id=user.id)
-                return bool(request.user.is_superuser or profile == obj.profile)
+
+        if request.method in SAFE_METHODS:
+            return True
         else:
-            return False
+            user = request.user
+            profile = Profile.objects.get(user_id=user.id)
+            return bool(request.user.is_superuser or profile == obj.profile)
+    
+    def has_permission(self, request, view):
+        return request.user
 
 
 class IsSuperUser(BasePermission):
