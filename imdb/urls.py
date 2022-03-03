@@ -27,6 +27,20 @@ router.register(r'register',views.RegisterUserViewSet)
 
 urlpatterns = [
     path('',views.about_us,name='home-page'),
+
+    path('documents/',views.documents),
+    path('documents/actor/',views.actor_docs),
+    path('documents/cast/',views.cast_docs),
+    path('documents/company/',views.company_docs),
+    path('documents/country/',views.country_docs),
+    path('documents/language/',views.language_docs),
+    path('documents/movie/',views.movie_docs),
+    path('documents/review/',views.review_docs),
+    path('documents/profile/',views.profile_docs),
+    path('documents/token/',views.token_docs),
+    path('documents/image/',views.image_docs),
+    path('documents/genre/',views.genre_docs),
+
     path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
     #enable login

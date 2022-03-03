@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'nav.html' %}
+
+<div style="padding: 2ch;">
+  <p>To obtain authentication token you first have to register. Go to <a href='/accounts/signup/'>Sign Up</a>.
+  <br>The API returns a short-lived token (JWT), which expires in 20 minutes, and in HTTP cookies, the refresh token expires in 7 days.
+</p>
+</div>
+<div class="card">
+  <div class="card-header">
+    Token
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">create</h5>
+    <p class="card-text">POST /api/token/</p>
+    <p>Takes a set of user credentials and returns an access and refresh JSON web token pair to prove the authentication of those credentials.</p>
+    <p>Request body</p>
+        <p>
+            The request body should be a "application/json" encoded object, containing the following items.
+        </p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Parameter</th>
+              <th scope="col">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td scope="row">username REQUIRED</dh>
+              <td></td>
+            </tr>
+            <tr>
+              <td scope="row">password REQUIRED</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+    <p style="color:red">Example: POST imdb-api.tk/api/token/</p>
+  </div>
+    <hr>
+    <div class="card-body">
+      <h5 class="card-title">create > refresh</h5>
+      <p class="card-text">POST /api/token/refresh/</p>
+      <p>Takes a set of user credentials and returns an access and refresh JSON web token pair to prove the authentication of those credentials.</p>
+      <p>Request body</p>
+        <p>
+            The request body should be a "application/json" encoded object, containing the following items.
+        </p>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Parameter</th>
+                <th scope="col">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="row">refresh REQUIRED</dh>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+      <p style="color:red">Example: POST imdb-api.tk/api/token/refresh/</p>
+  </div>
+
+</div>
+
+<div class="card">
+  <div class="card-header">
+    Usage
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">To verify that Simple JWT is working, you can use curl to issue a couple of test requests:</h5>
+    <hr>
+    <p class="card-text">
+            curl \ <br>
+        -X POST \ <br>
+        -H "Content-Type: application/json" \ <br>
+        -d '{"username": "davidattenborough", "password": "boatymcboatface"}' \ <br>
+        http://localhost:8000/api/token/ <br>
+
+      ... <br>
+      { <br>
+        "access":"xxx", <br>
+        "refresh":"yyy" <br>
+      }
+    </p>
+  </div>
+
+  <div class="card-body">
+    <hr>
+    <h5 class="card-title">You can use the returned access token to prove authentication for a protected view:</h5>
+    <hr>
+    <p class="card-text">
+      curl \ <br>
+        -H "Authorization: Bearer xxx" \ <br>
+        http://localhost:8000/api/some-protected-view/
+    </p>
+  </div>
+
+  <div class="card-body">
+    <hr>
+    <h5 class="card-title">When this short-lived access token expires, you can use the longer-lived refresh token to obtain another access token:</h5>
+    <hr>
+    <p class="card-text">
+      curl \ <br>
+      -X POST \ <br>
+      -H "Content-Type: application/json" \ <br>
+      -d '{"refresh":"yyy"}' \ <br>
+      http://localhost:8000/api/token/refresh/ <br>
+    
+    ... <br>
+    {"access":"zzz"}
+    </p>
+  </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'nav.html' %}
+
+<div class="card">
+    <div class="card-header">
+      Actors
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">read</h5>
+      <p class="card-text"> GET /api/image/actor/{id}</p>
+      <p style="color:red">Example: GET imdb-api.tk/api/image/actor/3</p>
+</div>
+<hr>
+
+<div class="card">
+  <div class="card-header">
+    Movies
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">read</h5>
+    <p class="card-text"> GET /api/image/movie/{id}</p>
+    <p style="color:red">Example: GET imdb-api.tk/api/image/movie/23</p>
+</div>
+<hr>
+    
+{% endblock %}

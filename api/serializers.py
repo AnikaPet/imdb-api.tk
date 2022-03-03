@@ -40,7 +40,13 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         exclude = ['user']
 
+class ActorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Actor
+        exclude = []
+
 class CastSerializer(serializers.ModelSerializer):
+    actor = ActorSerializer(read_only=True)
     class Meta:
         model = Cast
         exclude = []
@@ -65,12 +71,9 @@ class GenreSerializer(serializers.ModelSerializer):
         model = Genre
         exclude = []
 
-class ActorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Actor
-        exclude = []
-
 class ReviewSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer(read_only=True)
+    movie = MovieSerializer(read_only=True)
     class Meta:
         model = Review
-        exclude = ['profile']
+        exclude = []

@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'nav.html' %}
+
+<div class="card" style="padding: 2ch;">
+    <div class="card-header">
+      Genres
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">list</h5>
+      <p class="card-text"> GET /api/genres/</p>
+      <p>Query parametres</p>
+        <p>
+            The following parameters should be included in the URL path. 
+            Request returns genre with given name if it exists. Search is case insensitive.
+        </p>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Parameter</th>
+                <th scope="col">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="row">search</dh>
+                <td>A unique integer value identifying movie.</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="color:red">Example: GET imdb-api.tk/api/genres/?search=Horror</p>
+    </div>
+    <hr>
+    <div class="card-body">
+        <h5 class="card-title">create</h5>
+        <p class="card-text">POST /api/genres/</p>
+        <p>Request body</p>
+        <p>
+            The request body should be a "application/json" encoded object, containing the following items.
+        </p>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Parameter</th>
+                <th scope="col">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="row">title REQUIRED</dh>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    <hr>
+      <div class="card-body">
+        <h5 class="card-title">read</h5>
+        <p class="card-text"> GET /api/genres/{id}/</p>
+        <p>Path parametres</p>
+        <p>
+            The following parameters should be included in the URL path.
+        </p>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Parameter</th>
+                <th scope="col">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="row">id REQUIRED</dh>
+                <td>A unique integer value identifying this genre.</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    <hr>
+    <div class="card-body">
+        <h5 class="card-title">update</h5>
+        <p class="card-text">PUT /api/genres/{id}/</p>
+        <p>Path parametres</p>
+        <p>
+            The following parameters should be included in the URL path.
+        </p>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Parameter</th>
+                <th scope="col">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="row">id REQUIRED</dh>
+                <td>A unique integer value identifying this genre.</td>
+              </tr>
+            </tbody>
+          </table>
+
+        <p>Request body</p>
+        <p>
+            The request body should be a "application/json" encoded object, containing the following items.
+        </p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Parameter</th>
+              <th scope="col">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td scope="row">title REQUIRED</dh>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class="card-body">
+        <h5 class="card-title">partial update</h5>
+        <p class="card-text">PATCH /api/genres/{id}/</p>
+        <p>Path parametres</p>
+        <p>
+            The following parameters should be included in the URL path.
+        </p>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Parameter</th>
+                <th scope="col">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="row">id REQUIRED</dh>
+                <td>A unique integer value identifying this genre.</td>
+              </tr>
+            </tbody>
+          </table>
+
+        <p>Request body</p>
+        <p>
+            The request body should be a "application/json" encoded object, containing the following items.
+        </p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Parameter</th>
+              <th scope="col">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td scope="row">title REQUIRED</dh>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class="card-body">
+        <h5 class="card-title">delete</h5>
+        <p class="card-text"> DELETE /api/genres/{id}/</p>
+        <p>Path parametres</p>
+        <p>
+            The following parameters should be included in the URL path.
+        </p>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Parameter</th>
+                <th scope="col">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="row">id REQUIRED</dh>
+                <td>A unique integer value identifying this genre.</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    <hr>
+{% endblock %}

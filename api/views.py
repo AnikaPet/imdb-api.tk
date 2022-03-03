@@ -166,6 +166,8 @@ class GenreViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.Destro
     filter_backends = [filters.SearchFilter]
     search_fields = ['title']
 
+'''Returning images.'''
+
 def movie_image_view(request,  movie_id):
     image = Movie.objects.get(pk=movie_id).img
     return HttpResponse(image, content_type="image/png")
@@ -174,7 +176,45 @@ def actor_image_view(request,  actor_id):
     image = Actor.objects.get(pk=actor_id).img
     return HttpResponse(image, content_type="image/png")
 
+'''Documentation and home page.'''
+
 def about_us(request):
     '''A view of about us page.'''
 
     return render(request,'about_us.html')
+
+def documents(request):
+    return render(request,'documentation/docs.html')
+
+def token_docs(request):
+    return render(request,'documentation/token.html')
+
+def actor_docs(request):
+    return render(request,'documentation/actors.html')
+
+def cast_docs(request):
+    return render(request,'documentation/cast.html')
+
+def company_docs(request):
+    return render(request,'documentation/company.html')
+
+def country_docs(request):
+    return render(request,'documentation/country.html')
+
+def genre_docs(request):
+    return render(request,'documentation/genre.html')
+
+def language_docs(request):
+    return render(request,'documentation/language.html')
+
+def movie_docs(request):
+    return render(request,'documentation/movie.html')
+
+def review_docs(request):
+    return render(request,'documentation/review.html')
+
+def profile_docs(request):
+    return render(request,'documentation/profile.html')
+
+def image_docs(request):
+    return render(request,'documentation/image.html')
