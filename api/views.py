@@ -34,22 +34,20 @@ class UserWritePermission(BasePermission):
 
 class ProfileWritePermission(BasePermission):
     '''User can edit review from their profile only.'''
+    # obj is Review
 
     def has_object_permission(self, request, view, obj):
         if request.user.is_authenticated:
             if request.method in SAFE_METHODS:
                 return True
             else:
-                user_id = request.user.id
-                profile = Profile.objects.get(user_id=user_id)
-                profile_id = profile.id
-                
-                return bool(profile_id == obj.profile_id or request.user.is_superuser)
+                profile = None
+                user = request.user
+                profile = Profile.objects.get(user_id=user.id)
+                return bool(request.user.is_superuser or profile == obj.profile)
         else:
             return False
 
-    def has_permission(self, request, view):
-        return request.user.is_authenticated
 
 class IsSuperUser(BasePermission):
     ''' Allows access only to superusers.'''
@@ -156,12 +154,11 @@ class ReviewViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.Destr
         if(self.request.user.is_superuser):
             serializer.save()
         else:
-            profile_id = None
-            if self.request:
-                user_id = self.request.user.id
-                profile = Profile.objects.get(user_id=user_id)
-                profile_id = profile.id
-            serializer.save(profile_id=profile_id)
+            profile = None
+            if self.request.user:
+                user = self.request.user
+                profile = Profile.objects.get(user_id=user.id)
+            serializer.save(profile=profile)
 
 class ActorViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,
                 mixins.ListModelMixin,mixins.RetrieveModelMixin,IsSuperUser,viewsets.GenericViewSet): 

@@ -75,7 +75,7 @@ class LanguageSerializer(serializers.ModelSerializer):
 
 class ReviewSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(read_only=True)
-    movie = MovieSerializer(read_only=True)
+#    movie = MovieSerializer()
     class Meta:
         model = Review
         exclude = []
