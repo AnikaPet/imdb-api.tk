@@ -180,9 +180,7 @@ STATIC_ROOT = BASE_DIR / 'static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-CORS_ALLOWED_ORIGINS = [
-    '*',
-]
+CORS_ALLOW_ALL_ORIGINS: True
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
