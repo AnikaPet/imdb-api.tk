@@ -54,10 +54,13 @@ urlpatterns = [
 
     path('api/image/movie/<int:movie_id>',views.movie_image_view),
     path('api/image/actor/<int:actor_id>',views.actor_image_view),
-    path('docs/',include_docs_urls(title='IMDB-api')),
+
+]
+
+'''    path('docs/',include_docs_urls(title='IMDB-api')),
     path('schema', get_schema_view(
         title="IMDB API",
         description="API for all things …",
         version="1.0.0"
     ), name='openapi-schema'),
-]
+'''
