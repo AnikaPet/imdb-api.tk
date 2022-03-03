@@ -1,3 +1,4 @@
+from lib2to3.pytree import Base
 from django.contrib.auth.models import User
 from django.db.models.fields import mixins
 from django.http import HttpResponse
@@ -16,6 +17,14 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import Profile,Movie,Cast,Company,Country,Language,Genre,Actor,Review
 from .serializers import ActorSerializer, CountrySerializer,CompanySerializer, GenreSerializer, RegisterSerializer
 from .serializers import LanguageSerializer,ProfileSerializer,MovieSerializer,ReviewSerializer, CastSerializer
+
+class MoviesPermission(BasePermission):
+    def has_permission(self, request, view):
+        
+        if request.method in SAFE_METHODS:
+            return True
+        else:
+            return request.user.is_authenticated
 
 class UserWritePermission(BasePermission):
     '''User can only edit their profile. Only superuser can edit other profiles.'''
@@ -84,9 +93,9 @@ class ProfileViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.Dest
             serializer.save(user=user)
 
 class MovieViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,
-                mixins.ListModelMixin,mixins.RetrieveModelMixin,IsSuperUser,viewsets.GenericViewSet): 
+                mixins.ListModelMixin,mixins.RetrieveModelMixin,MoviesPermission,viewsets.GenericViewSet): 
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [MoviesPermission]
     queryset = Movie.objects.all().order_by('id')
     serializer_class = MovieSerializer
     
