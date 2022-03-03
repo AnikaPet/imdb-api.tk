@@ -3,6 +3,8 @@ from django.db.models.fields import mixins
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from django.db.models import Q
+
 from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework import filters
@@ -92,8 +94,21 @@ class MovieViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.Destro
     queryset = Movie.objects.all().order_by('id')
     serializer_class = MovieSerializer
     
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = {'title': ['startswith'], 'genre__title': ['startswith']}
+    def get_queryset(self):
+        """
+        Optionally restricts the returned movies to a given title and/or genre title.
+        """
+        queryset = Movie.objects.all()
+        title = self.request.query_params.get('title')
+        genre_title = self.request.query_params.get('genre_title')
+
+        if genre_title and title is not None:
+            queryset = queryset.filter(Q(genre__title__icontains=genre_title) and Q(title__icontains=title))
+        if title is not None:
+            queryset = queryset.filter(title__icontains=title)
+        if genre_title is not None:
+            queryset = queryset.filter(genre__title__icontains=genre_title)
+        return queryset
 
 class CastViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,
                 mixins.ListModelMixin,mixins.RetrieveModelMixin,IsSuperUser,viewsets.GenericViewSet): 
