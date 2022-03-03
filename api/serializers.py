@@ -29,7 +29,13 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'])   
         return user
 
+class GenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        exclude = []
+
 class MovieSerializer(serializers.ModelSerializer):
+    genre = GenreSerializer(read_only=True)
     class Meta:
         model = Movie
         exclude = []
@@ -66,10 +72,6 @@ class LanguageSerializer(serializers.ModelSerializer):
         model = Language
         exclude = []
 
-class GenreSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Genre
-        exclude = []
 
 class ReviewSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(read_only=True)

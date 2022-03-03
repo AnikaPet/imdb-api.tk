@@ -36,16 +36,15 @@ class ProfileWritePermission(BasePermission):
     '''User can edit review from their profile only.'''
 
     def has_object_permission(self, request, view, obj):
-        if request.user.is_authenticated:
-            if request.method in SAFE_METHODS:
-                return True
-            else:
+        if request.method in SAFE_METHODS:
+            return True
+        else:
+            if(request.user.is_authenticated):
                 user_id = request.user.id
                 profile = Profile.objects.get(user_id=user_id)
                 profile_id = profile.id
-                
+            
                 return bool(profile_id == obj.profile_id or request.user.is_superuser)
-        else:
             return False
 
     def has_permission(self, request, view):
@@ -54,14 +53,11 @@ class ProfileWritePermission(BasePermission):
 class IsSuperUser(BasePermission):
     ''' Allows access only to superusers.'''
     
-    def has_permission(self, request, view):
-        if request.user.is_authenticated:
-            if request.method in SAFE_METHODS:
-                return True
-            else:
-                return request.user.is_superuser
+    def has_permission(self, request, view):    
+        if request.method in SAFE_METHODS:
+            return True
         else:
-            return False
+            return bool(request.user.is_authenticated and request.user.is_superuser)
 
 class RegisterUserViewSet(mixins.CreateModelMixin,viewsets.GenericViewSet):
     authentication_classes = [JWTAuthentication]
