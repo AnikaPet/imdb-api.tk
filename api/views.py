@@ -10,7 +10,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework import mixins
 from rest_framework import viewsets
-from rest_framework.permissions import BasePermission, SAFE_METHODS, AllowAny
+from rest_framework.permissions import BasePermission, SAFE_METHODS, AllowAny, IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import Profile,Movie,Cast,Company,Country,Language,Genre,Actor,Review
@@ -86,7 +86,7 @@ class ProfileViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.Dest
 class MovieViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,
                 mixins.ListModelMixin,mixins.RetrieveModelMixin,IsSuperUser,viewsets.GenericViewSet): 
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsSuperUser]
+    permission_classes = [IsAuthenticated]
     queryset = Movie.objects.all().order_by('id')
     serializer_class = MovieSerializer
     
