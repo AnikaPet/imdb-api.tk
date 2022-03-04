@@ -81,6 +81,14 @@ class ProfileViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.Dest
     queryset = Profile.objects.all().order_by('id')
     serializer_class = ProfileSerializer
 
+    def get_queryset(self):
+        """
+        This view should return profile
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        return Profile.objects.filter(user=user)
+
     def perform_create(self, serializer):
         '''Mapping user field to logged in user unless it's superuser editing existing profile.'''
 
