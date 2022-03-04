@@ -27,7 +27,6 @@ router.register(r'register',views.RegisterUserViewSet)
 
 urlpatterns = [
     path('',views.about_us,name='home-page'),
-
     path('documents/',views.documents),
     path('documents/actor/',views.actor_docs),
     path('documents/cast/',views.cast_docs),
@@ -42,6 +41,7 @@ urlpatterns = [
     path('documents/genre/',views.genre_docs),
 
     path('api/', include(router.urls)),
+    path('api/watchlist/',views.watchlist.as_view({'get': 'list'})),
     path('admin/', admin.site.urls),
     #enable login
     #path('api-auth/',include('rest_framework.urls',namespace = 'rest_framework')),

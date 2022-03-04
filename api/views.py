@@ -193,6 +193,24 @@ class GenreViewSet(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.Destro
     filter_backends = [filters.SearchFilter]
     search_fields = ['title']
 
+'''Return wathclist'''
+
+class watchlist(mixins.ListModelMixin, viewsets.GenericViewSet):
+
+    authentication_classes = [JWTAuthentication]
+    serializer_class = MovieSerializer
+
+    def get_queryset(self):
+        """
+        This view should return saved_movies on profile
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        profile = Profile.objects.filter(user=user).first()
+        print(profile)
+        return profile.saved_movies.all()
+
+
 '''Returning images.'''
 
 def movie_image_view(request,  movie_id):
