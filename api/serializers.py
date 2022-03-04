@@ -41,7 +41,7 @@ class MovieSerializer(serializers.ModelSerializer):
         exclude = []
 
 class ProfileSerializer(serializers.ModelSerializer):
-    saved_movies = MovieSerializer(read_only=True,many=True)
+    saved_movies = MovieSerializer(many=True)
     class Meta:
         model = Profile
         exclude = ['user']
