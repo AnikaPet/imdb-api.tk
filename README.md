@@ -2,8 +2,9 @@
 
 Simple API using Django Rest Framework.
 ***
-This is API for website ............... It is web service for receiving information about movies and cast information and user management.
-See application [here](https://imdb-api.tk/)!
+This is API for receiving information about movies, actors, cast information and user management.
+There are 3 types of users: anonymous user, registered user and superuser. Anonymous user can brows through movies and see reviews and information about cast. Registered user has their own profile and can leave reviews or add movies to their watchlist. Superuser can manage content on the website. 
+See application and docs [here](https://imdb-api.tk/)!
 ***
 Installation
 ---
