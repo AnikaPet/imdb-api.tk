@@ -20,15 +20,24 @@ cd project
 python3 -m venv .venv
 source .venv/bin/activate
 ```
-4. Install requirements
+4. Change values in .env.example and rename it to .env
+5. Install requirements
 ```
 cd ap-blog.tk
 pip install -r requirements.txt
 ```
-5. Change values in .env.example and rename it to .env
 6. Apply migrations `python3 manage.py migrate`
 7. Create superuser `python3 manage.py createsuperuser`
 8. Run server `python3 manage.py runserver`
 
-Your instance is running at http://127.0.0.1:8000/
+Your instance is running at http://127.0.0.1:8000/ <br>
 Change DEBUG = False to DEBUG = True in settings.py file. 
+
+***
+With Docker Compose
+---
+5. Run
+```
+docker-compose up
+```
+Your instance is running at http://0.0.0.0:8000/
