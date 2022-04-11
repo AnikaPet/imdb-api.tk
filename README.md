@@ -25,9 +25,10 @@ source .venv/bin/activate
 cd ap-blog.tk
 pip install -r requirements.txt
 ```
-5. Apply migrations `python3 manage.py migrate`
-6. Create superuser `python3 manage.py createsuperuser`
-7. Run server `python3 manage.py runserver`
+5. Change values in .env.example and rename it to .env
+6. Apply migrations `python3 manage.py migrate`
+7. Create superuser `python3 manage.py createsuperuser`
+8. Run server `python3 manage.py runserver`
 
 Your instance is running at http://127.0.0.1:8000/
 Change DEBUG = False to DEBUG = True in settings.py file. 
